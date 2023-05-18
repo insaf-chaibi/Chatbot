@@ -1,0 +1,32 @@
+{"intents":[
+    { "tag" : "Greetings", 
+      "patterns" : ["Hello", "Hi there", "Hey", "What's up ?"],
+      "responses" : ["Hello! I'm here to help you determine what might be causing your dog's symptoms.",
+        "Greetings! As a knowledgeable chatbot, I can help you figure out what's going on with your dog.",
+        "Hi there! I'm here to assist you in identifying your dog's illness.",
+        "Hey! I'm your helpful chatbot, and I'm here to assist you with your dog's health.",
+        "Welcome! As a knowledgeable chatbot, I can assist you in determining the cause of your dog's symptoms.",
+        "Hello! How can I help you and your dog today?"]
+    },
+    {
+      "tag": "Unknown",
+      "patterns": ["I don't know", "Can you tell me?"],
+      "responses": ["I'm sorry, I don't have enough information to make a diagnosis"]
+    },
+    {
+      "tag": "Goodbye",
+      "patterns": ["Bye", "Goodbye", "See you later"],
+      "responses": ["Goodbye! Take care of your dog."]
+    },
+    {
+        "tag": "Positive",
+        "patterns":["Yes","Yup","Affirmative","Absolutely","Indeed","Certainly", "Sure", "Definitely", "Absolutely", "By all means", "Of course","Affirmatively"],
+        "responses":[]
+    },
+    {
+        "tag": "Negative",
+        "patterns":["No", "Nope", "Nay", "Nix", "Denial", "Refusal", "Decline", "Not at all", "Absolutely not", "No way","Not sure"],
+        "responses":[]
+    }
+
+]}
