@@ -28,6 +28,8 @@
                         <div id="chatbox">
                             <h5 id="chat-timestamp"></h5>
                             <!-- <p id="botStarterMessage" class="botText"><span>Loading...</span></p> -->
+                            <p id="botStarterMessage" class="botText"><span>Hi, I'm Doggy.<br>Doggy wants to help you figure out if your dog has severe health issues that require an urgent visit to the vet.</span></p>
+                            <p id="botStarterMessage" class="botText"><span>Do you want to give it a shot?</span></p>
                         </div>
 
                         <!-- User input box -->
@@ -60,7 +62,7 @@
 
 </body>
 <style>
-    :root{
+:root{
     --c1:#8d6531;
     --c2:#d8bf99;
     --c3:#fff;
@@ -267,15 +269,6 @@ body {
     let final =await res.json();
     console.log(final)
     return final['resultat'];
-
-    // Simple responses
-    if (input == "hello") {
-        return "Hello there!";
-    } else if (input == "goodbye") {
-        return "Talk to you later!";
-    } else {
-        return "Try asking something else!";
-    }
 }
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

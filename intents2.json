@@ -19,14 +19,14 @@
       "responses": ["Goodbye! Take care of your dog."]
     },
     {
-        "tag": "Positive",
-        "patterns":["Yes","Yup","Affirmative","Absolutely","Indeed","Certainly", "Sure", "Definitely", "Absolutely", "By all means", "Of course","Affirmatively"],
-        "responses":[]
+      "tag": "Positive",
+      "patterns":["Yes","Yup","Affirmative","Absolutely","Indeed","Certainly", "Sure", "Definitely", "Absolutely", "By all means", "Of course","Affirmatively"],
+      "responses":[]
     },
     {
-        "tag": "Negative",
-        "patterns":["No", "Nope", "Nay", "Nix", "Denial", "Refusal", "Decline", "Not at all", "Absolutely not", "No way","Not sure"],
-        "responses":[]
+      "tag": "Negative",
+      "patterns":["No", "Nope", "Nay", "Nix", "Denial", "Refusal", "Decline", "Not at all", "Absolutely not", "No way","Not sure"],
+      "responses":[]
     }
 
 ]}

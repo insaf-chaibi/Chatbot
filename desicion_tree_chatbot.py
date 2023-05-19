@@ -10,38 +10,30 @@ data = pd.read_csv(r"dataset2.csv")
 data = data.iloc[:, 1:]
 
 intents = json.loads(open("intents2.json").read())
-severity_model = joblib.load("model/severity_model.joblib")
 
-def get_tag(value, intents):
-    for intent in intents:
-        patterns = intent["patterns"]
-        if value.lower() in patterns:
-            return intent["tag"]
-    return 'Invalid'
+Severity_model = joblib.load("model/severity_model.joblib")
 
 def chatbot_decision_tree():
-    tree = severity_model.tree_
+    severity_tree = Severity_model.tree_
     feature_names = data.columns[:-1]
-    node = 0
-
-    while tree.children_left[node] != -1:
-        feature = tree.feature[node]
+    severity_node = 0
+    
+    while severity_tree.children_left[severity_node] != -1:
+        feature = severity_tree.feature[severity_node]
         feature_name = feature_names[feature]
-        threshold = tree.threshold[node]
-        value = input(f"Does your dog have {feature_name}? ")
-
-        tag = get_tag(value, intents)
-        if tag == 'Positive':
-            node = tree.children_right[node]
-        elif tag == 'Negative':
-            node = tree.children_left[node]
+        threshold = severity_tree.threshold[severity_node]
+        value = input(f"Does the dog have {feature_name}? (yes/no) ")
+        
+        if value.lower() == 'yes':
+            severity_node = severity_tree.children_right[severity_node]
+        elif value.lower() == 'no':
+            severity_node = severity_tree.children_left[severity_node]
         else:
-            print("Invalid input. Please answer with valid inputs.")
+            print("Invalid input. Please answer with 'yes' or 'no'.")
             continue
+            
+    severity = Severity_model.classes_[severity_tree.value[severity_node].argmax()]
 
-
-    severity = severity_model.classes_[tree.value[node].argmax()]
-
-    print(f"The predicted disease severity is {severity}.\nPlease consult a vet for further evaluation.")
-
+    print(f"The diagnosis is {severity}.\nPlease consult a vet for further evaluation.")
+    
 chatbot_decision_tree()
