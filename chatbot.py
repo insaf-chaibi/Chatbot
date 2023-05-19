@@ -69,11 +69,8 @@ data = pd.read_csv(r"dataset2.csv")
 data = data.iloc[:, 1:] 
 
 def opening_message(user_input):
-        # The chatbot initiates the conversation with the opening message
-        opening_message = "Hi, I'm Doggy.\nDoggy wants to help you figure out if your dog has severe health issues that require an urgent visit to the vet. \nDo you want to give it a shot?"
-        response = {"result": opening_message}
-        return response
-    elif user_input is not None:
+
+    if user_input is not None:
         ints = predict_class(user_input, model)
         if ints[0]["intent"] == 'Positive':
             response = chatbot_decision_tree(user_input)
@@ -116,3 +113,7 @@ def chatbot_decision_tree(user_input):
 
 #chatbot_decision_tree(user_input)
 
+def chatbot_response(msg):
+    ints = predict_class(msg, model)
+    res = getResponse(ints, intents)
+    return res

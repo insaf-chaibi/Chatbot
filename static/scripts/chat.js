@@ -35,7 +35,7 @@ function getTime() {
 
 // Gets the first message
 function firstBotMessage() {
-    let firstMessage = "How's it going?"
+    let firstMessage = "Hi, I'm Doggy.\nDoggy wants to help you figure out if your dog has severe health issues that require an urgent visit to the vet. \nDo you want to give it a shot?"
     document.getElementById("botStarterMessage").innerHTML = '<p class="botText"><span>' + firstMessage + '</span></p>';
 
     let time = getTime();
@@ -44,7 +44,8 @@ function firstBotMessage() {
     document.getElementById("userInput").scrollIntoView(false);
 }
 
-// firstBotMessage();
+// Call the function to display the initial message
+firstBotMessage();
 
 // Retrieves the response
 async function getHardResponse(userText) {
