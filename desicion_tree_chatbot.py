@@ -22,7 +22,7 @@ def chatbot_decision_tree():
         feature = severity_tree.feature[severity_node]
         feature_name = feature_names[feature]
         threshold = severity_tree.threshold[severity_node]
-        value = input(f" ")
+        value = input(f"Does the dog have {feature_name}? (yes/no) ")
         
         if value.lower() == 'yes':
             severity_node = severity_tree.children_right[severity_node]
