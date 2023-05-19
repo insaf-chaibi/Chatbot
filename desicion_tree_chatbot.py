@@ -22,7 +22,7 @@ def chatbot_decision_tree():
         feature = severity_tree.feature[severity_node]
         feature_name = feature_names[feature]
         threshold = severity_tree.threshold[severity_node]
-        value = input(f"Does the dog have {feature_name}? (yes/no) ")
+        value = input(f" ")
         
         if value.lower() == 'yes':
             severity_node = severity_tree.children_right[severity_node]
@@ -35,5 +35,7 @@ def chatbot_decision_tree():
     severity = Severity_model.classes_[severity_tree.value[severity_node].argmax()]
 
     print(f"The diagnosis is {severity}.\nPlease consult a vet for further evaluation.")
-    
-chatbot_decision_tree()
+
+
+if __name__ == "__main__":
+    chatbot_decision_tree()

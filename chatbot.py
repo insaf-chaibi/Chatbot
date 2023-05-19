@@ -12,6 +12,9 @@ from sklearn import tree
 
 from severity_train import df1, predict
 
+# if first time running, uncomment this line:
+nltk.download('wordnet')
+
 lemmatizer = WordNetLemmatizer()
 
 model = load_model("model/chatbot_model.h5")
