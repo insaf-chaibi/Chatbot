@@ -92,19 +92,22 @@ def chatbot_decision_tree(user_input):
         feature_name = feature_names[feature]
         threshold = tree.threshold[node]
         #value = input(f"Does your dog have {feature_name}? ")
-
-        # Include the question in the response
-        response = {"question": f"Does your dog have {feature_name}?"}
-
         ints = predict_class(user_input, model)
-        
+
         if ints[0]["intent"] == 'Positive':
-            node = tree.children_right[node]
-        elif ints[0]["intent"] == 'Negative':
-            node = tree.children_left[node]
-        else:
-            return "Invalid input. Please answer with valid inputs."
-            continue
+            # Include the question in the response
+            response = {"question": f"Does your dog have {feature_name}?"}
+            return response
+
+            ints = predict_class(user_input, model)
+            
+            if ints[0]["intent"] == 'Positive':
+                node = tree.children_right[node]
+            elif ints[0]["intent"] == 'Negative':
+                node = tree.children_left[node]
+            else:
+                return "Invalid input. Please answer with valid inputs."
+                continue
 
     severity = severity_model.classes_[tree.value[node].argmax()]
     response["result"] = f"The predicted disease severity is {severity}.\nPlease consult a vet for further evaluation."
@@ -112,8 +115,3 @@ def chatbot_decision_tree(user_input):
     return response
 
 #chatbot_decision_tree(user_input)
-
-def chatbot_response(msg):
-    ints = predict_class(msg, model)
-    res = getResponse(ints, intents)
-    return res

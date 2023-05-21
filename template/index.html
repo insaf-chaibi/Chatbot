@@ -215,9 +215,9 @@
                         <!-- Messages -->
                         <div id="chatbox">
                             <h5 id="chat-timestamp"></h5>
-                            <p id="botStarterMessage" class="botText"><span></span></p>
-                            <!-- <p id="botStarterMessage" class="botText"><span>Hi, I'm Doggy.<br>Doggy wants to help you figure out if your dog has severe health issues that require an urgent visit to the vet.</span></p> -->
-                            <!-- <p id="botStarterMessage" class="botText"><span>Do you want to give it a shot?</span></p> -->
+                            <!--<p id="botStarterMessage" class="botText"><span></span></p>-->
+                            <p id="botStarterMessage" class="botText"><span>Hi, I'm Doggy.<br>Doggy wants to help you figure out if your dog has severe health issues that require an urgent visit to the vet.</span></p>
+                            <p id="botStarterMessage" class="botText"><span>Do you want to give it a shot?</span></p>
                         </div>
 
                         <!-- User input box -->
@@ -249,6 +249,7 @@
     </div>
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <script>
     // Collapsible
@@ -288,7 +289,7 @@ function getTime() {
 
 // Gets the first message
 function firstBotMessage() {
-    let firstMessage = "Hi, I'm Doggy. \nDoggy wants to help you figure out if your dog has severe health issues that require an urgent visit to the vet. \nDo you want to give it a shot?"
+    let firstMessage = "Hi, I'm Doggy."+"<br>"+" Doggy wants to help you figure out if your dog has severe health issues that require an urgent visit to the vet."+"<br>"+" Do you want to give it a shot?"
 
     document.getElementById("botStarterMessage").innerHTML = '<p class="botText"><span>' + firstMessage + '</span></p>';
 
@@ -299,11 +300,13 @@ function firstBotMessage() {
 }
 
 // Call the function to display the initial message
-firstBotMessage();
+// firstBotMessage();
 
 // Retrieves the response
 async function getHardResponse(userText) {
-    let botResponse = await getBotResponse({"msg":userText});
+    let botResponse = await getBotResponse({
+        "answer":userText
+    });
     // let ff=await botResponse.json();
     let botHtml = '<p class="botText"><span>' + botResponse + '</span></p>';
     $("#chatbox").append(botHtml);
@@ -328,7 +331,6 @@ function getResponse() {
     setTimeout(() => {
         getHardResponse(userText);
     }, 1000)
-
 }
 
 // Handles sending text via button clicks
@@ -349,33 +351,32 @@ function sendButton() {
     getResponse();
 }
 
-function heartButton() {
+/*function heartButton() {
     buttonSendText("Heart clicked!")
-}
-
+}*/
 // Press enter to send a message
 $("#textInput").keypress(function (e) {
     if (e.which == 13) {
         getResponse();
     }
 });
+
 </script>
 <script>
     async function getBotResponse(input) {
         //console.log(input)
-        let res=await fetch("/send",{
+        let res = await fetch("/diagnose",{
             method: 'POST',
-            body: JSON.stringify(input),
-            mode: 'cors',
+            body: JSON.stringify(input), //convert input to json string
+            mode: 'cors', // 'cors' : enable cross-origin resource sharing.
             headers: {
             'Content-Type': 'application/json'
             },
         })
         let final = await res.json();
-        return final['result'];
-}
+        return final['response'];
+    }
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <!--<script src="{{ url_for('static',filename='scripts/chat.js') }}"></script>-->
 <script>  var $SCRIPT_ROOT = '{{ request.script_root|tojson|safe }}' </script>
