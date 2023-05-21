@@ -1,5 +1,5 @@
 from flask import Flask, request ,render_template, jsonify
-from chatbot import chatbot_decision_tree, opening_message
+from chatbot import chatbot_decision_tree, opening_message, predict_class, model
 import pandas as pd
 import json
 import joblib
@@ -30,9 +30,10 @@ Severity_model = joblib.load("model/severity_model.joblib")
 
 opening_msg = "Hi, I'm a bot. I can help you diagnose your dog's condition. What is your dog's name?"
 conversation_state = {
-    "request_id" : {
+    "context" : {
         "severity_node" : 0,
-        "asked_symptoms" : []
+        "asked_symptoms" : [],
+        "has_started" : False,
     }
 }
 
@@ -52,26 +53,27 @@ def diagnose():
             till the severity_node == -1
         7- if the answer is not yes or no, return an error
     """
-    request_id , answer = request.json.get("request_id" , None) , request.json.get("answer" , None)
-    if not request_id :
-        return jsonify({"response" : "request_id not found"}) , 400
+    answer = request.json.get("answer" , None)
     if not answer :
         return jsonify({"response" : "answer not found in the request"}) , 400
     
     # answer == reset
     if answer.lower() == "reset":
-        conversation_state.pop(request_id , None)
+        conversation_state.pop("context" , None)
         return jsonify({"response" : "the conversation state is reset"}) , 200
     
-    if answer.lower() not in ["yes" , "no"]:
-        # reset the conversation state
-        conversation_state.pop(request_id , None)
-        return jsonify({"response" : "answer must be 'yes' or 'no'"}) , 400
+    if "context" not in conversation_state :
+        conversation_state["context"] = {"severity_node" : 0 , "asked_symptoms" : [] , "has_started" : False}
     
-    if request_id not in conversation_state :
-        conversation_state[request_id] = {"severity_node" : 0 , "asked_symptoms" : []}
+    ints = predict_class(answer,model)
+    is_happy = ints[0]["intent"] == "Positive"
+
+    if not is_happy and not conversation_state["context"]["has_started"]:
+        return jsonify({"response": "Doggy would always be happy to help you out. Welcome anytime :)"}), 200
     
-    severity_node = conversation_state[request_id]["severity_node"]
+    conversation_state["context"]["has_started"] = True
+    
+    severity_node = conversation_state["context"]["severity_node"]
     severity_tree = Severity_model.tree_
     feature_names = data.columns[:-1]
 
@@ -83,17 +85,17 @@ def diagnose():
     threshold = severity_tree.threshold[severity_node]
     
     # if it's the first asked symptoms return the opening message
-    asked_symptoms = conversation_state[request_id]["asked_symptoms"]
+    asked_symptoms = conversation_state["context"]["asked_symptoms"]
     if len(asked_symptoms) == 0:
-        conversation_state[request_id]["asked_symptoms"].append(feature_name)
+        conversation_state["context"]["asked_symptoms"].append(feature_name)
         return jsonify({"response" : f"Does your dog have {feature_name}?"})
     
-    if answer.lower() == 'yes':
+    if ints[0]["intent"] == "Positive":
         severity_node = severity_tree.children_right[severity_node]
-    elif answer.lower() == 'no':
+    elif ints[0]["intent"] == "Negative":
         severity_node = severity_tree.children_left[severity_node]
     
-    conversation_state[request_id]["severity_node"] = severity_node
+    conversation_state["context"]["severity_node"] = severity_node
     
     if severity_tree.children_left[severity_node] == -1:
         severity = Severity_model.classes_[severity_tree.value[severity_node].argmax()]
