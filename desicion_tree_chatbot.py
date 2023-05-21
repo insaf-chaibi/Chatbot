@@ -35,5 +35,7 @@ def chatbot_decision_tree():
     severity = Severity_model.classes_[severity_tree.value[severity_node].argmax()]
 
     print(f"The diagnosis is {severity}.\nPlease consult a vet for further evaluation.")
-    
-chatbot_decision_tree()
+
+
+if __name__ == "__main__":
+    chatbot_decision_tree()

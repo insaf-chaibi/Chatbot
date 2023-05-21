@@ -305,6 +305,10 @@ function firstBotMessage() {
 // Retrieves the response
 async function getHardResponse(userText) {
     let botResponse = await getBotResponse({
+<<<<<<< HEAD
+=======
+        "request_id":"1234", // this later can be changed to use user id
+>>>>>>> e8fdd345888d0cc36298e6ab0555452532709221
         "answer":userText
     });
     // let ff=await botResponse.json();
@@ -365,7 +369,11 @@ $("#textInput").keypress(function (e) {
 <script>
     async function getBotResponse(input) {
         //console.log(input)
+<<<<<<< HEAD
         let res = await fetch("/diagnose",{
+=======
+        let res=await fetch("/diagnose",{
+>>>>>>> e8fdd345888d0cc36298e6ab0555452532709221
             method: 'POST',
             body: JSON.stringify(input), //convert input to json string
             mode: 'cors', // 'cors' : enable cross-origin resource sharing.
@@ -375,7 +383,11 @@ $("#textInput").keypress(function (e) {
         })
         let final = await res.json();
         return final['response'];
+<<<<<<< HEAD
     }
+=======
+}
+>>>>>>> e8fdd345888d0cc36298e6ab0555452532709221
 </script>
 
 <!--<script src="{{ url_for('static',filename='scripts/chat.js') }}"></script>-->
