@@ -249,7 +249,7 @@
     </div>
 
 </body>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
     // Collapsible
 var coll = document.getElementsByClassName("collapsible");
@@ -304,7 +304,6 @@ firstBotMessage();
 // Retrieves the response
 async function getHardResponse(userText) {
     let botResponse = await getBotResponse({
-        "request_id":"1234", // this later can be changed to use user id
         "answer":userText
     });
     // let ff=await botResponse.json();
@@ -378,7 +377,6 @@ $("#textInput").keypress(function (e) {
         return final['response'];
 }
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <!--<script src="{{ url_for('static',filename='scripts/chat.js') }}"></script>-->
 <script>  var $SCRIPT_ROOT = '{{ request.script_root|tojson|safe }}' </script>
